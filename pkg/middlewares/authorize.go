@@ -1,5 +1,72 @@
 package middlewares
 
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/afrizal423/mygram/app/models"
+	"github.com/afrizal423/mygram/configs"
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
+)
+
+func PhotoAuthorizations() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := configs.GormPostgresConn()
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userID := uint(userData["user_id"].(float64))
+		photo := models.Photo{}
+
+		result := db.Where("user_id = ?", userID).Order("id desc").Take(&photo)
+		if result.RowsAffected == 0 {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": fmt.Sprintln("There is no data photo"),
+			})
+			return
+		}
+
+		// for protect unregistered user to login
+		if photo.UserID != userID {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "You are not allowed to access this data",
+			})
+			return
+		}
+		c.Next()
+	}
+}
+
+func SingleDataPhotoAuthorizations() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := configs.GormPostgresConn()
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userID := uint(userData["user_id"].(float64))
+		photo := models.Photo{}
+		photoId := c.Param("photoId")
+
+		result := db.Where("user_id = ? AND id = ?", userID, photoId).Order("id desc").Take(&photo)
+		if result.RowsAffected == 0 {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": fmt.Sprintln("There is no data photo"),
+			})
+			return
+		}
+
+		// for protect unregistered user to login
+		if photo.UserID != userID {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "You are not allowed to access this data",
+			})
+			return
+		}
+		c.Next()
+	}
+}
+
 // import (
 // 	"fmt"
 // 	"net/http"

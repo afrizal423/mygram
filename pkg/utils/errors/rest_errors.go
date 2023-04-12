@@ -78,7 +78,7 @@ func NewUnauthorizedError(message string) *RestErr {
 	}
 }
 
-func NewInternalServerError(message string, err error) *RestErr {
+func NewInternalServerError(message string) *RestErr {
 	result := &RestErr{
 		ErrMessage: message,
 		ErrStatus:  http.StatusInternalServerError,

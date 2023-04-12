@@ -14,6 +14,13 @@ type Photo struct {
 	User     *User
 }
 
+// create, update
+type RequestPhoto struct {
+	Title    string `gorm:"-:all" json:"title" form:"title" binding:"required"`
+	Caption  string `gorm:"-:all" json:"caption,omitempty" form:"caption,omitempty"`
+	PhotoURL string `gorm:"-:all" json:"photo_url" form:"photo_url" binding:"required,url"`
+}
+
 func (p *Photo) BeforeCreate(tx *gorm.DB) (err error) {
 	_, errCreate := govalidator.ValidateStruct(p)
 
