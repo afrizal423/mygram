@@ -58,6 +58,13 @@ definitions:
     - photo_url
     - title
     type: object
+  models.RequestSocialMedia:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    type: object
   models.SocialMedia:
     properties:
       created_at:
@@ -106,9 +113,9 @@ definitions:
     type: object
   models.UserLogin:
     properties:
-      password:
+      email:
         type: string
-      username:
+      password:
         type: string
     type: object
 host: localhost:8080
@@ -254,6 +261,141 @@ paths:
       summary: Update photo user
       tags:
       - Photo
+  /socialmedia:
+    get:
+      consumes:
+      - application/json
+      description: Get all social media user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SocialMedia'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Get all social media user
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Create social media user
+      parameters:
+      - description: Create social media user
+        in: body
+        name: requestCreate
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestSocialMedia'
+      produces:
+      - application/json
+      - application/x-www-form-urlencoded
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.RequestSocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Create social media user
+      tags:
+      - Social Media
+  /socialmedia/{socialMediaId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete social media user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - JWT: []
+      summary: Delete social media user
+      tags:
+      - Social Media
+    get:
+      consumes:
+      - application/json
+      description: Get social media user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Get social media user
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Update social media user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      - description: Update Social Media user
+        in: body
+        name: requestUpdate
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestSocialMedia'
+      produces:
+      - application/json
+      - application/x-www-form-urlencoded
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Update social media user
+      tags:
+      - Social Media
   /users/login:
     post:
       consumes:

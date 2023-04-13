@@ -8,6 +8,7 @@ import (
 	"github.com/afrizal423/mygram/app/business/photo"
 	"github.com/afrizal423/mygram/app/models"
 	"github.com/afrizal423/mygram/pkg/utils/errors"
+	"github.com/afrizal423/mygram/pkg/utils/respon"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -188,7 +189,7 @@ func (handler *Controller) DeletePhoto(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, errors.NewInternalServerError("Failed to delete photo"))
 		return
 	} else {
-		c.JSON(http.StatusOK, ResponseDeleted{
+		c.JSON(http.StatusOK, respon.ResponseDeleted{
 			Message: "Data Photo deleted successfully",
 		})
 	}

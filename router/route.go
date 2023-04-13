@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/afrizal423/mygram/api/v1/photo"
+	"github.com/afrizal423/mygram/api/v1/socialmedia"
 	"github.com/afrizal423/mygram/api/v1/user"
 	_ "github.com/afrizal423/mygram/docs"
 	"github.com/afrizal423/mygram/pkg/middlewares"
@@ -20,13 +21,16 @@ import (
 // @name Authorization
 // @description description: Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".
 // @externalDocs.description  OpenAPI
-func Route(userHandler *user.Controller, photoHandler *photo.Controller) *gin.Engine {
+func Route(userHandler *user.Controller,
+	photoHandler *photo.Controller,
+	sosmedHandler *socialmedia.Controller) *gin.Engine {
 	r := gin.Default()
 	userRouter := r.Group("/users")
 	{
 		userRouter.POST("/register", userHandler.Register)
 		userRouter.POST("/login", userHandler.Login)
 	}
+
 	photoRouter := r.Group("/photo")
 	{
 		photoRouter.Use(middlewares.Authentication())
@@ -36,6 +40,17 @@ func Route(userHandler *user.Controller, photoHandler *photo.Controller) *gin.En
 		photoRouter.PUT("/:photoId", middlewares.SingleDataPhotoAuthorizations(), photoHandler.UpdatePhoto)
 		photoRouter.DELETE("/:photoId", middlewares.SingleDataPhotoAuthorizations(), photoHandler.DeletePhoto)
 	}
+
+	sosmedRouter := r.Group("/socialmedia")
+	{
+		sosmedRouter.Use(middlewares.Authentication())
+		sosmedRouter.POST("/", sosmedHandler.CreateSosmed)
+		sosmedRouter.GET("/", middlewares.SocialMediaAuthorizations(), sosmedHandler.GetAllSosmed)
+		sosmedRouter.GET("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.GetSosmed)
+		sosmedRouter.PUT("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.UpdateSosmed)
+		sosmedRouter.DELETE("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.DeleteSosmed)
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

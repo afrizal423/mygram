@@ -13,6 +13,12 @@ type SocialMedia struct {
 	User           *User
 }
 
+// create, update
+type RequestSocialMedia struct {
+	Name           string `gorm:"-:all" json:"name" form:"name"`
+	SocialMediaUrl string `gorm:"-:all" json:"social_media_url" form:"social_media_url" `
+}
+
 func (p *SocialMedia) BeforeCreate(tx *gorm.DB) (err error) {
 	_, errCreate := govalidator.ValidateStruct(p)
 

@@ -10,6 +10,9 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+/*
+------------------------------------- Photo ----------------------------------------
+*/
 func PhotoAuthorizations() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := configs.GormPostgresConn()
@@ -66,6 +69,74 @@ func SingleDataPhotoAuthorizations() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+/*
+	------------------------------------- END Photo ----------------------------------------
+*/
+
+/*
+------------------------------------- Social Media ----------------------------------------
+*/
+func SocialMediaAuthorizations() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := configs.GormPostgresConn()
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userID := uint(userData["user_id"].(float64))
+		sosmed := models.SocialMedia{}
+
+		result := db.Where("user_id = ?", userID).Order("id desc").Take(&sosmed)
+		if result.RowsAffected == 0 {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": fmt.Sprintln("There is no data social media"),
+			})
+			return
+		}
+
+		// for protect unregistered user to login
+		if sosmed.UserID != userID {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "You are not allowed to access this data",
+			})
+			return
+		}
+		c.Next()
+	}
+}
+
+func SingleDataSocialMediaAuthorizations() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := configs.GormPostgresConn()
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userID := uint(userData["user_id"].(float64))
+		sosmed := models.SocialMedia{}
+		socialMediaId := c.Param("socialMediaId")
+
+		result := db.Where("user_id = ? AND id = ?", userID, socialMediaId).Order("id desc").Take(&sosmed)
+		if result.RowsAffected == 0 {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": fmt.Sprintln("There is no data social media"),
+			})
+			return
+		}
+
+		// for protect unregistered user to login
+		if sosmed.UserID != userID {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "You are not allowed to access this data",
+			})
+			return
+		}
+		c.Next()
+	}
+}
+
+/*
+	-------------------------------------END Social Media ----------------------------------------
+*/
 
 // import (
 // 	"fmt"
