@@ -17,7 +17,7 @@ import (
 // @description    	This is a sample service for managing MyGram server.
 // @contact.name   	Afrizalmy
 // @contact.email	afrizalmy1@gmail.com
-// @host      		mygram-production-80cd.up.railway.app
+// @host      		localhost:8080
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/license/LICENSE-2.0.html
 // @securityDefinitions.apikey JWT
