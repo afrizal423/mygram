@@ -15,13 +15,16 @@ func GormPostgresConn() *gorm.DB {
 		"DB_Password": Config("DB_PASSWORD"),
 		"DB_Host":     Config("DB_ADDRESS"),
 		"DB_Name":     Config("DB_NAME"),
+		"DB_PORT":     Config("DB_PORT"),
 	}
 
-	openConnection := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Jakarta",
+	openConnection := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		configDB["DB_Host"],
 		configDB["DB_Username"],
 		configDB["DB_Password"],
-		configDB["DB_Name"])
+		configDB["DB_Name"],
+		configDB["DB_PORT"],
+	)
 
 	// Open the connection
 	db, err := gorm.Open(postgres.Open(openConnection), &gorm.Config{})
