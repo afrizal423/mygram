@@ -13,7 +13,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "mygram-production-80cd.up.railway.app",
     "paths": {
         "/comment": {
             "get": {

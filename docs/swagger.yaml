@@ -125,7 +125,7 @@ definitions:
       password:
         type: string
     type: object
-host: localhost:8080
+host: mygram-production-80cd.up.railway.app
 info:
   contact:
     email: afrizalmy1@gmail.com
