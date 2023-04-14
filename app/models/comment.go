@@ -16,6 +16,15 @@ type Comment struct {
 	User    *User
 }
 
+type RequestComments struct {
+	Message string `json:"message" form:"message" valid:"required~Message is required"`
+	PhotoID int    `json:"photo_id" form:"photo_id"`
+}
+
+type RequestGetComments struct {
+	PhotoID int `json:"photo_id" form:"photo_id"`
+}
+
 func (p *Comment) BeforeCreate(tx *gorm.DB) (err error) {
 	if p.PhotoID == 0 {
 		return errors.New("Photo ID is required")
@@ -34,7 +43,7 @@ func (p *Comment) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (p *Comment) BeforeUpdate(tx *gorm.DB) (err error) {
 	p.PhotoID = 0
-	
+
 	_, errCreate := govalidator.ValidateStruct(p)
 
 	if errCreate != nil {

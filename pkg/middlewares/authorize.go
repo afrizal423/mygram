@@ -3,6 +3,7 @@ package middlewares
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/afrizal423/mygram/app/models"
 	"github.com/afrizal423/mygram/configs"
@@ -136,6 +137,55 @@ func SingleDataSocialMediaAuthorizations() gin.HandlerFunc {
 
 /*
 	-------------------------------------END Social Media ----------------------------------------
+*/
+
+/*
+------------------------------------- Comments ----------------------------------------
+*/
+func CommentAuthorizations() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := configs.GormPostgresConn()
+		commentId, err := strconv.Atoi(c.Param("commentId"))
+		if err != nil {
+			if c.Request.Method == "GET" {
+				c.Next()
+				return
+			} else {
+				c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+					"error":   "Bad Request",
+					"message": "invalid parameter",
+				})
+				return
+			}
+		}
+
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userID := uint(userData["user_id"].(float64))
+		Comment := models.Comment{}
+
+		err = db.Select("user_id").First(&Comment, uint(commentId)).Error
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"error":   "Data Not Found",
+				"message": "data doesn't exist",
+			})
+			return
+		}
+
+		if Comment.UserID != userID {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Unauthorized",
+				"message": "you are not allowed to access this data",
+			})
+			return
+		}
+
+		c.Next()
+	}
+}
+
+/*
+------------------------------------- END Comments ----------------------------------------
 */
 
 // import (

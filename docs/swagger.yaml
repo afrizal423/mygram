@@ -46,6 +46,13 @@ definitions:
       userID:
         type: integer
     type: object
+  models.RequestComments:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+    type: object
   models.RequestPhoto:
     properties:
       caption:
@@ -126,6 +133,141 @@ info:
   title: Swagger MyGram API
   version: "1.0"
 paths:
+  /comment:
+    get:
+      consumes:
+      - application/json
+      description: Get all Comment user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Get all Comment user
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Create Comment user
+      parameters:
+      - description: Create Comment user
+        in: body
+        name: requestCreate
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestComments'
+      produces:
+      - application/json
+      - application/x-www-form-urlencoded
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.RequestComments'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Create Comment user
+      tags:
+      - Comment
+  /comment/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Comment user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - JWT: []
+      summary: Delete Comment user
+      tags:
+      - Comment
+    get:
+      consumes:
+      - application/json
+      description: Get Comment user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Get Comment user
+      tags:
+      - Comment
+    put:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Update Comment user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      - description: Update Comment user
+        in: body
+        name: requestUpdate
+        required: true
+        schema:
+          $ref: '#/definitions/models.RequestComments'
+      produces:
+      - application/json
+      - application/x-www-form-urlencoded
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.RestErr'
+      security:
+      - JWT: []
+      summary: Update Comment user
+      tags:
+      - Comment
   /photo:
     get:
       consumes:

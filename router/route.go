@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/afrizal423/mygram/api/v1/comment"
 	"github.com/afrizal423/mygram/api/v1/photo"
 	"github.com/afrizal423/mygram/api/v1/socialmedia"
 	"github.com/afrizal423/mygram/api/v1/user"
@@ -23,7 +24,9 @@ import (
 // @externalDocs.description  OpenAPI
 func Route(userHandler *user.Controller,
 	photoHandler *photo.Controller,
-	sosmedHandler *socialmedia.Controller) *gin.Engine {
+	sosmedHandler *socialmedia.Controller,
+	commentHandler *comment.Controller) *gin.Engine {
+
 	r := gin.Default()
 	userRouter := r.Group("/users")
 	{
@@ -49,6 +52,16 @@ func Route(userHandler *user.Controller,
 		sosmedRouter.GET("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.GetSosmed)
 		sosmedRouter.PUT("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.UpdateSosmed)
 		sosmedRouter.DELETE("/:socialMediaId", middlewares.SingleDataSocialMediaAuthorizations(), sosmedHandler.DeleteSosmed)
+	}
+
+	commentRouter := r.Group("/comment")
+	{
+		commentRouter.Use(middlewares.Authentication())
+		commentRouter.POST("/", commentHandler.CreateComment)
+		commentRouter.GET("/", middlewares.CommentAuthorizations(), commentHandler.GetAllComment)
+		commentRouter.GET("/:commentId", middlewares.CommentAuthorizations(), commentHandler.GetComment)
+		commentRouter.PUT("/:commentId", middlewares.CommentAuthorizations(), commentHandler.UpdateComment)
+		commentRouter.DELETE("/:commentId", middlewares.CommentAuthorizations(), commentHandler.DeleteComment)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
