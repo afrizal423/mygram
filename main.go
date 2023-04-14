@@ -40,5 +40,6 @@ func main() {
 		sosmedHandler,
 		commentHandler,
 	)
-	r.Run(":8080")
+	var PORT = configs.Config("PORT")
+	r.Run(":" + PORT)
 }
