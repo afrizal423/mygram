@@ -1,10 +1,15 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server MyGram server.",
+        "description": "This is a sample service for managing MyGram server.",
         "title": "Swagger MyGram API",
         "contact": {
-            "name": "ansharw"
+            "name": "Afrizalmy",
+            "email": "afrizalmy1@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/license/LICENSE-2.0.html"
         },
         "version": "1.0"
     },

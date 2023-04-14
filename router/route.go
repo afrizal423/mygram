@@ -14,9 +14,12 @@ import (
 
 // @title          	Swagger MyGram API
 // @version        	1.0
-// @description    	This is a sample server MyGram server.
-// @contact.name   	ansharw
+// @description    	This is a sample service for managing MyGram server.
+// @contact.name   	Afrizalmy
+// @contact.email	afrizalmy1@gmail.com
 // @host      		localhost:8080
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/license/LICENSE-2.0.html
 // @securityDefinitions.apikey JWT
 // @in header
 // @name Authorization
