@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/afrizal423/mygram/app/models"
 	"github.com/afrizal423/mygram/pkg/utils/hash"
@@ -9,8 +10,8 @@ import (
 )
 
 type UserService struct {
-	repository IUserRepository
-	hashing    hash.Hashing
+	Repository IUserRepository
+	Hashing    hash.Hashing
 }
 
 func NewUserService(repository IUserRepository) *UserService {
@@ -25,7 +26,7 @@ func (u *UserService) Register(data models.User) (models.User, error) {
 	// hash password
 	// data.Password = u.hashing.HashPassword(data.Password)
 	// repositoty to insert data
-	data, err := u.repository.Register(data)
+	data, err := u.Repository.Register(data)
 	if err != nil {
 		return dt, err
 	}
@@ -33,13 +34,14 @@ func (u *UserService) Register(data models.User) (models.User, error) {
 }
 
 func (u *UserService) Login(data models.User) (string, error) {
-	dt, err := u.repository.FindByEmail(data.Email)
+	dt, err := u.Repository.FindByEmail(data.Email)
+	fmt.Println(data)
 	if err != nil {
 		return "", errors.New("tidak ada data")
 	}
 	// fmt.Println(data.Password, dt.Password)
 	// return "", nil
-	match, err := u.hashing.VerifikasiPassword(data.Password, dt.Password)
+	match, err := u.Hashing.VerifikasiPassword(data.Password, dt.Password)
 	if err != nil {
 		return "", err
 	}

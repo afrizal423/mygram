@@ -7,7 +7,7 @@ import (
 )
 
 type PhotoService struct {
-	repository IPhotoRepository
+	Repository IPhotoRepository
 }
 
 func NewPhotoService(repository IPhotoRepository) *PhotoService {
@@ -18,7 +18,7 @@ func NewPhotoService(repository IPhotoRepository) *PhotoService {
 
 func (s *PhotoService) GetAllByUserId(userID uint) ([]models.Photo, error) {
 
-	if photos, err := s.repository.GetAllByUserId(userID); err != nil {
+	if photos, err := s.Repository.GetAllByUserId(userID); err != nil {
 		log.Println("Data not found")
 		return photos, err
 	} else {
@@ -28,7 +28,7 @@ func (s *PhotoService) GetAllByUserId(userID uint) ([]models.Photo, error) {
 
 func (s *PhotoService) GetByUserId(userID uint, id uint) (models.Photo, error) {
 
-	if photo, err := s.repository.GetByUserId(userID, id); err != nil {
+	if photo, err := s.Repository.GetByUserId(userID, id); err != nil {
 		log.Println("Data not found")
 		return photo, err
 	} else {
@@ -37,7 +37,7 @@ func (s *PhotoService) GetByUserId(userID uint, id uint) (models.Photo, error) {
 }
 
 func (s *PhotoService) Create(req models.Photo, userID uint) (models.Photo, error) {
-	if photo, err := s.repository.Create(req, userID); err != nil {
+	if photo, err := s.Repository.Create(req, userID); err != nil {
 		log.Println("Failed to create photo")
 		return photo, err
 	} else {
@@ -47,7 +47,7 @@ func (s *PhotoService) Create(req models.Photo, userID uint) (models.Photo, erro
 
 func (s *PhotoService) Update(req models.Photo, id, userID uint) (models.Photo, error) {
 
-	if photo, err := s.repository.Update(req, id, userID); err != nil {
+	if photo, err := s.Repository.Update(req, id, userID); err != nil {
 		log.Println("Failed to update photo")
 		return photo, err
 	} else {
@@ -57,7 +57,7 @@ func (s *PhotoService) Update(req models.Photo, id, userID uint) (models.Photo, 
 
 func (s *PhotoService) Delete(id, userID uint) (models.Photo, error) {
 
-	if photo, err := s.repository.Delete(id, userID); err != nil {
+	if photo, err := s.Repository.Delete(id, userID); err != nil {
 		log.Println("Failed to delete photo")
 		return photo, err
 	} else {

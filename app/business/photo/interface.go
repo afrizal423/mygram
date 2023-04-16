@@ -15,6 +15,7 @@ type IPhotoService interface {
 	Delete(id, userID uint) (models.Photo, error)
 }
 
+//go:generate mockery --name IPhotoRepository
 type IPhotoRepository interface {
 	// get data foto by id
 	GetAllByUserId(userID uint) ([]models.Photo, error)

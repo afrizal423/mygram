@@ -720,7 +720,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserLogin"
+                            "$ref": "#/definitions/models.UserRegister"
                         }
                     }
                 ],
@@ -928,6 +928,23 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "models.UserRegister": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -943,7 +960,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "mygram-production-80cd.up.railway.app",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger MyGram API",
