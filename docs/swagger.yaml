@@ -125,6 +125,17 @@ definitions:
       password:
         type: string
     type: object
+  models.UserRegister:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: mygram-production-80cd.up.railway.app
 info:
   contact:
@@ -582,7 +593,7 @@ paths:
         name: requestRegister
         required: true
         schema:
-          $ref: '#/definitions/models.UserLogin'
+          $ref: '#/definitions/models.UserRegister'
       produces:
       - application/json
       - application/x-www-form-urlencoded

@@ -13,4 +13,4 @@ Project akhir Go Programming Microservices Digitalent Scholarship partner Hackti
 - Jalankan perintah ```go run main.go``` untuk menjalankan program
 
 # Dokumentasi
-Via swagger, akses dengan url ```localhost:8080/swagger/index.html```
+Via swagger, akses dengan url ```localhost:8080/swagger/index.html``` atau via [mygram-production-80cd.up.railway.app](https://mygram-production-80cd.up.railway.app/swagger/index.html)

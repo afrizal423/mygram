@@ -30,7 +30,7 @@ func NewUserController(service user.IUserService) *Controller {
 // @Accept x-www-form-urlencoded
 // @Produce json
 // @Produce x-www-form-urlencoded
-// @Param requestRegister body models.UserLogin true "Register user"
+// @Param requestRegister body models.UserRegister true "Register user"
 // @Failure 400 {object} errors.RestErr
 // @Router /users/register [post]
 func (c *Controller) Register(ctx *gin.Context) {

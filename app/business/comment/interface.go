@@ -15,6 +15,7 @@ type ICommentService interface {
 	Delete(id, userID uint) (models.Comment, error)
 }
 
+//go:generate mockery --name ICommentRepository
 type ICommentRepository interface {
 	// get data komentar by id
 	GetAllByUserId(userID uint) ([]models.Comment, error)

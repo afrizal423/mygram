@@ -8,7 +8,7 @@ import (
 )
 
 type CommentService struct {
-	repository ICommentRepository
+	Repository ICommentRepository
 }
 
 func NewCommentService(repository ICommentRepository) *CommentService {
@@ -19,7 +19,7 @@ func NewCommentService(repository ICommentRepository) *CommentService {
 
 func (s *CommentService) GetAllByUserId(userID uint) ([]models.Comment, error) {
 
-	if photos, err := s.repository.GetAllByUserId(userID); err != nil {
+	if photos, err := s.Repository.GetAllByUserId(userID); err != nil {
 		log.Println("Data not found")
 		return photos, err
 	} else {
@@ -29,7 +29,7 @@ func (s *CommentService) GetAllByUserId(userID uint) ([]models.Comment, error) {
 
 func (s *CommentService) GetByUserId(userID uint, id uint) (models.Comment, error) {
 
-	if photo, err := s.repository.GetByUserId(userID, id); err != nil {
+	if photo, err := s.Repository.GetByUserId(userID, id); err != nil {
 		log.Println("Data not found")
 		return photo, err
 	} else {
@@ -42,10 +42,10 @@ func (s *CommentService) Create(req models.RequestComments, userID uint) (models
 	komen.Message = req.Message
 	komen.PhotoID = req.PhotoID
 	komen.UserID = userID
-	if s.repository.HitungFoto(req.PhotoID) == 0 {
+	if s.Repository.HitungFoto(req.PhotoID) == 0 {
 		return komen, errors.New("data foto kosong")
 	}
-	if photo, err := s.repository.Create(komen, userID); err != nil {
+	if photo, err := s.Repository.Create(komen, userID); err != nil {
 		log.Println("Failed to create photo")
 		return photo, err
 	} else {
@@ -58,7 +58,7 @@ func (s *CommentService) Update(req models.RequestComments, id, userID, photoID 
 	komen.Message = req.Message
 	komen.PhotoID = req.PhotoID
 	komen.UserID = userID
-	if photo, err := s.repository.Update(komen, id, userID); err != nil {
+	if photo, err := s.Repository.Update(komen, id, userID); err != nil {
 		log.Println("Failed to update photo")
 		return photo, err
 	} else {
@@ -68,7 +68,7 @@ func (s *CommentService) Update(req models.RequestComments, id, userID, photoID 
 
 func (s *CommentService) Delete(id, userID uint) (models.Comment, error) {
 
-	if photo, err := s.repository.Delete(id, userID); err != nil {
+	if photo, err := s.Repository.Delete(id, userID); err != nil {
 		log.Println("Failed to delete photo")
 		return photo, err
 	} else {

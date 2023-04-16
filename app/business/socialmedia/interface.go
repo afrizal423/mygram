@@ -15,6 +15,7 @@ type ISocialMediaService interface {
 	Delete(id, userID uint) (models.SocialMedia, error)
 }
 
+//go:generate mockery --name ISocialMediaRepository
 type ISocialMediaRepository interface {
 	// create data sosmed
 	Create(req models.RequestSocialMedia, userID uint) (models.SocialMedia, error)
