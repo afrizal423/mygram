@@ -10,5 +10,5 @@ type IUserService interface {
 //go:generate mockery --name IUserRepository
 type IUserRepository interface {
 	Register(data models.User) (models.User, error)
-	FindByEmail(email string) (*models.User, error)
+	FindByEmail(email string) (models.User, error)
 }
