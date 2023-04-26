@@ -17,12 +17,12 @@ func NewuserRepository(db *gorm.DB) *UserRepository {
 	}
 }
 
-func (u *UserRepository) FindByEmail(email string) (*models.User, error) {
+func (u *UserRepository) FindByEmail(email string) (models.User, error) {
 	var user models.User
 	if err := u.db.Select("id", "email", "password", "username").First(&user, "email = ?", email).Error; err != nil {
-		return nil, errors.New("tidak ada data")
+		return user, errors.New("tidak ada data")
 	}
-	return &user, nil
+	return user, nil
 }
 
 func (u *UserRepository) Register(data models.User) (models.User, error) {

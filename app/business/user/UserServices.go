@@ -2,7 +2,6 @@ package user
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/afrizal423/mygram/app/models"
 	"github.com/afrizal423/mygram/pkg/utils/hash"
@@ -35,7 +34,6 @@ func (u *UserService) Register(data models.User) (models.User, error) {
 
 func (u *UserService) Login(data models.User) (string, error) {
 	dt, err := u.Repository.FindByEmail(data.Email)
-	fmt.Println(data)
 	if err != nil {
 		return "", errors.New("tidak ada data")
 	}

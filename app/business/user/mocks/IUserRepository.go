@@ -13,20 +13,18 @@ type IUserRepository struct {
 }
 
 // FindByEmail provides a mock function with given fields: email
-func (_m *IUserRepository) FindByEmail(email string) (*models.User, error) {
+func (_m *IUserRepository) FindByEmail(email string) (models.User, error) {
 	ret := _m.Called(email)
 
-	var r0 *models.User
+	var r0 models.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(string) (*models.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(string) (models.User, error)); ok {
 		return rf(email)
 	}
-	if rf, ok := ret.Get(0).(func(string) *models.User); ok {
+	if rf, ok := ret.Get(0).(func(string) models.User); ok {
 		r0 = rf(email)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*models.User)
-		}
+		r0 = ret.Get(0).(models.User)
 	}
 
 	if rf, ok := ret.Get(1).(func(string) error); ok {
